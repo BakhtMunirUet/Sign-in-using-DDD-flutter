@@ -1,26 +1,25 @@
 import 'package:ddd_signin/application/auth/sign_in_form/sign_in_provider.dart';
-import 'package:ddd_signin/application/dashboard/dashboard_page.dart';
+import 'package:ddd_signin/application/auth/sign_up/sign_up_provider.dart';
 import 'package:ddd_signin/domain/auth/email_address.dart';
 import 'package:ddd_signin/domain/auth/password.dart';
 import 'package:ddd_signin/domain/core/failures/value_failures.dart';
-import 'package:ddd_signin/presentation/auth/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignInPage extends StatelessWidget {
-  SignInPage({Key? key}) : super(key: key);
+class SignUpPage extends StatelessWidget {
+  SignUpPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SignInProvider>(
-      create: (context) => SignInProvider(),
-      child: Consumer<SignInProvider>(
-        builder: (context, signInProvider, _) {
+    return ChangeNotifierProvider<SignUpProvider>(
+      create: (context) => SignUpProvider(),
+      child: Consumer<SignUpProvider>(
+        builder: (context, signUpProvider, _) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("Sign In"),
+              title: Text("Sign up"),
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -42,7 +41,7 @@ class SignInPage extends StatelessWidget {
                           }
                         },
                         onChanged: (value) {
-                          signInProvider.emailAddress = value.trim();
+                          signUpProvider.emailAddress = value.trim();
                         },
                         decoration: InputDecoration(
                           border: UnderlineInputBorder(),
@@ -60,25 +59,23 @@ class SignInPage extends StatelessWidget {
                           }
                         },
                         onChanged: (value) {
-                          signInProvider.password = value.trim();
+                          signUpProvider.password = value.trim();
                         },
                         decoration: InputDecoration(
                           border: UnderlineInputBorder(),
-                          labelText: 'Enter your username',
+                          labelText: 'Enter your password',
                         ),
                       ),
                       SizedBox(height: 20),
                       TextButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            await signInProvider
-                                .signInWithEmailAndPasswordPressed();
-                            if (signInProvider.isSucess) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DashboardPage()),
-                              );
+                            await signUpProvider
+                                .registerWithEmailAndPasswordPressed();
+                            if (signUpProvider.isSuccess) {
+                              Navigator.pop(context);
+                            } else {
+                              print("Error:" + signUpProvider.errorMessage);
                             }
                           }
                         },
@@ -88,25 +85,8 @@ class SignInPage extends StatelessWidget {
                           backgroundColor: Colors.blue,
                           textStyle: const TextStyle(fontSize: 20),
                         ),
-                        child: Text("Login"),
-                      ),
-                      SizedBox(height: 20),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignUpPage()),
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.all(16.0),
-                          primary: Colors.white,
-                          backgroundColor: Colors.blue,
-                          textStyle: const TextStyle(fontSize: 20),
-                        ),
                         child: Text("Sign up"),
-                      ),
+                      )
                     ],
                   ),
                 ),

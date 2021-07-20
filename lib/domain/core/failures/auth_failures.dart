@@ -21,3 +21,9 @@ class InvalidEmailAndPasswordCombination implements Exception {
 
   InvalidEmailAndPasswordCombination({required this.failedValue});
 }
+
+class EmailNotUse implements Exception {
+  final String failedValue;
+
+  EmailNotUse({required this.failedValue});
+}

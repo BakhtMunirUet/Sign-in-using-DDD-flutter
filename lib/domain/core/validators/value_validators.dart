@@ -5,7 +5,7 @@ String validateEmailAddress(String input) {
       r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""";
 
   if (RegExp(emailRegex).hasMatch(input)) {
-    return "";
+    return input;
   } else if (input.isEmpty) {
     throw EmptyEmailException(failedValue: input);
   } else {

@@ -6,11 +6,12 @@ import 'package:ddd_signin/domain/core/failures/value_failures.dart';
 import 'package:ddd_signin/infrastructure/auth/auth_facade.dart';
 import 'package:flutter/foundation.dart';
 
-class SignInProvider with ChangeNotifier {
+class SignUpProvider with ChangeNotifier {
   String _emailAddress = '';
   String _password = '';
 
   bool _isSuccess = false;
+  String _errorMessage = "";
 
   String get emailAddress => _emailAddress;
   set emailAddress(String value) {
@@ -22,28 +23,33 @@ class SignInProvider with ChangeNotifier {
     this._password = value;
   }
 
-  bool get isSucess => _isSuccess;
+  String get errorMessage => _errorMessage;
+  bool get isSuccess => _isSuccess;
 
   IAuthFacade _authFacade = new AuthFacade();
 
-  signInWithEmailAndPasswordPressed() async {
+  registerWithEmailAndPasswordPressed() async {
     try {
-      await _authFacade.signInWithEmailAndPassword(
+      await _authFacade.registerWithEmailAndPassword(
           emailAddress: EmailAddress(_emailAddress),
           password: Password(_password));
       _isSuccess = true;
     } on InvalidEmailException catch (e) {
       _isSuccess = false;
+      _errorMessage = "Invalid Email";
       print("Ivalid email and password" + e.toString());
     } on InvalidEmailAndPasswordCombination catch (e) {
       _isSuccess = false;
+      _errorMessage = "Invalid email and password combination";
       print("Invalid email and password combination" + e.toString());
-    } on EmailNotUse {
+    } on EmailAlreadyInUse {
       _isSuccess = false;
-      print("Sorry no user found");
+      _errorMessage = "Email Already in use";
     } on ServerError {
       _isSuccess = false;
-      print("Server error occures");
+      _errorMessage = "Somethings went wrong";
     }
+
+    notifyListeners();
   }
 }
