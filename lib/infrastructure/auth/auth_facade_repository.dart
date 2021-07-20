@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:ddd_signin/domain/auth/email_address.dart';
-import 'package:ddd_signin/domain/auth/i_auth_facade.dart';
+import 'package:ddd_signin/domain/auth/i_auth_facade_repository.dart';
 import 'package:ddd_signin/domain/auth/password.dart';
 import 'package:ddd_signin/domain/core/failures/auth_failures.dart';
 import 'package:ddd_signin/infrastructure/local/local_storage.dart';
 
-class AuthFacade implements IAuthFacade {
+class AuthFacadeRepository implements IAuthFacadeRepository {
   @override
   Future<void> registerWithEmailAndPassword(
       {EmailAddress? emailAddress, Password? password}) async {

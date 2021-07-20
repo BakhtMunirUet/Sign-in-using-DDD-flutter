@@ -1,9 +1,9 @@
 import 'package:ddd_signin/domain/auth/email_address.dart';
-import 'package:ddd_signin/domain/auth/i_auth_facade.dart';
+import 'package:ddd_signin/domain/auth/i_auth_facade_repository.dart';
 import 'package:ddd_signin/domain/auth/password.dart';
 import 'package:ddd_signin/domain/core/failures/auth_failures.dart';
 import 'package:ddd_signin/domain/core/failures/value_failures.dart';
-import 'package:ddd_signin/infrastructure/auth/auth_facade.dart';
+import 'package:ddd_signin/infrastructure/auth/auth_facade_repository.dart';
 import 'package:flutter/foundation.dart';
 
 class SignInProvider with ChangeNotifier {
@@ -24,11 +24,11 @@ class SignInProvider with ChangeNotifier {
 
   bool get isSucess => _isSuccess;
 
-  IAuthFacade _authFacade = new AuthFacade();
+  IAuthFacadeRepository _authFacadeRepository = new AuthFacadeRepository();
 
   signInWithEmailAndPasswordPressed() async {
     try {
-      await _authFacade.signInWithEmailAndPassword(
+      await _authFacadeRepository.signInWithEmailAndPassword(
           emailAddress: EmailAddress(_emailAddress),
           password: Password(_password));
       _isSuccess = true;
