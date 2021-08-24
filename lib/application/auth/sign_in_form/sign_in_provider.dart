@@ -27,6 +27,18 @@ class SignInProvider with ChangeNotifier {
   IAuthFacadeRepository _authFacadeRepository = new AuthFacadeRepository();
 
   signInWithEmailAndPasswordPressed() async {
+    // try {
+    //   await _authFacadeRepository.signInWithEmailAndPassword(
+    //       emailAddress: EmailAddress(_emailAddress),
+    //       password: Password(_password));
+    //   _isSuccess = true;
+    // } on MainEception catch (e) {
+    //   _isSuccess = false;
+    //   print(e.exceptionValue.toString());
+    // } on EmailNotUse {
+    //   print("user not dddddddd");
+    // }
+
     try {
       await _authFacadeRepository.signInWithEmailAndPassword(
           emailAddress: EmailAddress(_emailAddress),

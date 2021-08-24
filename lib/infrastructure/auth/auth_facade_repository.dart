@@ -33,7 +33,9 @@ class AuthFacadeRepository implements IAuthFacadeRepository {
       {EmailAddress? emailAddress, Password? password}) async {
     String? result = await LocalStorage.getString(emailAddress!.value);
     if (result == null) {
-      throw EmailNotUse(failedValue: emailAddress.value);
+      throw EmailNotUse(failedValue: "User Not found");
+      // throw MainEception<EmailNotUse>(
+      //     "user not found........", EmailNotUse(failedValue: "User Not found"));
     } else {
       dynamic user = jsonDecode(result);
       String? email = user["email"];
@@ -41,6 +43,8 @@ class AuthFacadeRepository implements IAuthFacadeRepository {
       if (email == emailAddress.value && pass == password!.value) {
       } else {
         throw EmailNotUse(failedValue: "User Not found");
+        // throw MainEception<EmailNotUse>("user not found........",
+        //     EmailNotUse(failedValue: "User Not found"));
       }
     }
   }

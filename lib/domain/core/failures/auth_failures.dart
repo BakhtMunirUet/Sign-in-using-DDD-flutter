@@ -25,5 +25,12 @@ class InvalidEmailAndPasswordCombination implements Exception {
 class EmailNotUse implements Exception {
   final String failedValue;
 
-  EmailNotUse({required this.failedValue});
+  EmailNotUse({this.failedValue = "User Not found"});
+}
+
+class MainEception<T> implements Exception {
+  T exception;
+  String exceptionValue;
+
+  MainEception(this.exceptionValue, this.exception);
 }
